@@ -58,6 +58,17 @@ public:
     pointer data(){ return d.get(); }
     const_pointer data() const { return d.get(); }
 
+    iterator begin(){ return d.get(); }
+    const_iterator cbegin() const { return d.get(); }
+
+    iterator end(){ return d.get() + s*sizeof(T); }
+    const_iterator cend() const { return d.get() + s*sizeof(T); }
+
+    reverse_iterator rbegin(){ return reverse_iterator(end()); }
+    const_reverse_iterator crbegin(){ return const_reverse_iterator(cend()); }
+
+    reverse_iterator rend(){ return reverse_iterator(begin()); }
+    const_reverse_iterator crend(){ return const_reverse_iterator(cbegin()); }
 
 private:
     size_type s;
