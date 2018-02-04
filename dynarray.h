@@ -30,18 +30,16 @@ public:
         , d{nullptr}
     {}
 
-    reference at(size_type pos)
-    {
-        if(pos <= s){
+    reference at(size_type pos){
+        if(pos < s){
             return d[pos];
         } else {
             throw std::range_error("Tried to access index " + std::to_string(pos) + " when dynarray size is only " + std::to_string(s) + ".");
         }
     }
 
-    const_reference at(size_type pos) const
-    {
-        if(pos <= s){
+    const_reference at(size_type pos) const {
+        if(pos < s){
             return d[pos];
         } else {
             throw std::range_error("Tried to access index " + std::to_string(pos) + " when dynarray size is only " + std::to_string(s) + ".");
@@ -50,6 +48,15 @@ public:
 
     reference operator[](size_type pos){ return d[pos]; }
     const_reference operator[](size_type pos) const { return d[pos]; }
+
+    reference front(){ return this->at(0); }
+    const_reference front() const { return this->at(0); }
+
+    reference back(){ return this->at(s-1); }
+    const_reference back() const { return this->at(s-1); }
+
+    pointer data(){ return d.get(); }
+    const_pointer data() const { return d.get(); }
 
 
 private:
