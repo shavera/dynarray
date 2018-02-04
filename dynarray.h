@@ -29,6 +29,7 @@ public:
         iterator operator--(int){iterator retval = *this; --(*this); return retval;}
         iterator operator+(const size_type& s){ return iterator{p+s}; }
         iterator operator-(const size_type& s){ return iterator{p-s}; }
+        difference_type operator-(const iterator& other){return p - other.p;}
         bool operator<(iterator other) const {return p < other.p;}
         iterator& operator+=(const size_type& s){ p += s; return *this;}
         iterator& operator-=(const size_type& s){ p -= s; return *this;}
@@ -46,6 +47,7 @@ public:
         const_iterator operator--(int){const_iterator retval = *this; --(*this); return retval;}
         const_iterator operator+(const size_type& s){ return const_iterator{p+s}; }
         const_iterator operator-(const size_type& s){ return const_iterator{p-s}; }
+        difference_type operator-(const const_iterator& other){return p - other.p;}
         bool operator<(const_iterator other) const {return p < other.p;}
         const_iterator& operator+=(const size_type& s){ p += s; return *this;}
         const_iterator& operator-=(const size_type& s){ p -= s; return *this;}
@@ -62,6 +64,19 @@ public:
         : s{0}
         , d{nullptr}
     {}
+
+    dynarray(const dynarray& other)
+        : dynarray(other.s)
+    {
+        std::copy(other.cbegin(), other.cend(), begin());
+    }
+
+    dynarray& operator=(const dynarray& other){
+        s = other.s;
+        d = std::make_unique<T[]>(s);
+        std::copy(other.cbegin(), other.cend(), begin());
+        return *this;
+    }
 
     reference at(size_type pos){
         if(pos < s){
@@ -102,6 +117,10 @@ public:
 
     reverse_iterator rend(){ return reverse_iterator(begin()); }
     const_reverse_iterator crend(){ return const_reverse_iterator(cbegin()); }
+
+    size_type size(){ return s; }
+
+    void swap(dynarray& other){ std::swap(s, other.s); std::swap(d, other.d); }
 
 private:
     size_type s;

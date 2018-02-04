@@ -29,5 +29,10 @@ int main(int argc, char *argv[])
 
     std::cout << fooIt->x << " " << fooIt->y << " " << fooIt->z << std::endl;
 
+    dynarray<Foo> foo2Array(fooArray);
+    dynarray<Foo> foo3Array;
+    foo3Array = fooArray;
+    std::cout << foo2Array.begin()->x << " " << foo3Array.front().y <<std::endl;
+
     return 0;
 }
