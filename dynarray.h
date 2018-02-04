@@ -15,8 +15,45 @@ public:
     using const_reference = const value_type&;
     using pointer = value_type*;
     using const_pointer = const value_type*;
-    using iterator = std::iterator<std::random_access_iterator_tag, T>;
-    using const_iterator = std::iterator<std::random_access_iterator_tag, T>;
+
+    class iterator : public std::iterator<std::random_access_iterator_tag, T>{
+        pointer p;
+    public:
+        explicit iterator(pointer _p = nullptr) : p{_p}{}
+        iterator& operator++(){++p; return *this;}
+        iterator operator++(int){iterator retval = *this; ++(*this); return retval;}
+        bool operator==(iterator other) const {return p == other.p;}
+        bool operator!=(iterator other) const {return !(*this == other);}
+        reference operator*() {return *p;}
+        pointer operator->() {return p;}
+        iterator& operator--(){--p; return *this;}
+        iterator operator--(int){iterator retval = *this; --(*this); return retval;}
+        iterator operator+(const size_type& s){ return iterator{p+s}; }
+        iterator operator-(const size_type& s){ return iterator{p-s}; }
+        bool operator<(iterator other) const {return p < other.p;}
+        iterator& operator+=(const size_type& s){ p += s; return *this;}
+        iterator& operator-=(const size_type& s){ p -= s; return *this;}
+    };
+    class const_iterator : public std::iterator<std::random_access_iterator_tag, T>{
+        const_pointer p;
+    public:
+        explicit const_iterator(const_pointer _p) : p{_p}{}
+        const_iterator(iterator i) : p{&(*i)}{}
+        const_iterator& operator++(){++p; return *this;}
+        const_iterator operator++(int){const_iterator retval = *this; ++(*this); return retval;}
+        bool operator==(const_iterator other) const {return p == other.p;}
+        bool operator!=(const_iterator other) const {return !(*this == other);}
+        const_reference operator*() const {return *p;}
+        const_iterator& operator--(){--p; return *this;}
+        const_iterator operator--(int){const_iterator retval = *this; --(*this); return retval;}
+        const_iterator operator+(const size_type& s){ return const_iterator{p+s}; }
+        const_iterator operator-(const size_type& s){ return const_iterator{p-s}; }
+        bool operator<(const_iterator other) const {return p < other.p;}
+        const_iterator& operator+=(const size_type& s){ p += s; return *this;}
+        const_iterator& operator-=(const size_type& s){ p -= s; return *this;}
+    };
+//    using iterator = std::iterator<std::random_access_iterator_tag, T>;
+//    using const_iterator = std::iterator<std::random_access_iterator_tag, T>;
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
@@ -58,11 +95,11 @@ public:
     pointer data(){ return d.get(); }
     const_pointer data() const { return d.get(); }
 
-    iterator begin(){ return d.get(); }
-    const_iterator cbegin() const { return d.get(); }
+    iterator begin(){ return iterator{d.get()}; }
+    const_iterator cbegin() const { return const_iterator{d.get()}; }
 
-    iterator end(){ return d.get() + s*sizeof(T); }
-    const_iterator cend() const { return d.get() + s*sizeof(T); }
+    iterator end(){ return iterator{d.get() + s}; }
+    const_iterator cend() const { return const_iterator{d.get() + s}; }
 
     reverse_iterator rbegin(){ return reverse_iterator(end()); }
     const_reverse_iterator crbegin(){ return const_reverse_iterator(cend()); }
