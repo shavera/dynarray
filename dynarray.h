@@ -1,6 +1,7 @@
 #ifndef DYNARRAY_H
 #define DYNARRAY_H
 
+#include <exception>
 #include <iterator>
 #include <memory>
 
@@ -19,7 +20,7 @@ public:
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
-    explicit dynarray(size_t size)
+    explicit dynarray(size_type size)
         : s{size}
         , d{std::make_unique<T[]>(size)}
     {}
@@ -29,8 +30,30 @@ public:
         , d{nullptr}
     {}
 
+    reference at(size_type pos)
+    {
+        if(pos <= s){
+            return d[pos];
+        } else {
+            throw std::range_error("Tried to access index " + std::to_string(pos) + " when dynarray size is only " + std::to_string(s) + ".");
+        }
+    }
+
+    const_reference at(size_type pos) const
+    {
+        if(pos <= s){
+            return d[pos];
+        } else {
+            throw std::range_error("Tried to access index " + std::to_string(pos) + " when dynarray size is only " + std::to_string(s) + ".");
+        }
+    }
+
+    reference operator[](size_type pos){ return d[pos]; }
+    const_reference operator[](size_type pos) const { return d[pos]; }
+
+
 private:
-    size_t s;
+    size_type s;
     std::unique_ptr<T[]> d;
 };
 
