@@ -23,7 +23,6 @@ public:
         iterator& operator++(){++p; return *this;}
         iterator operator++(int){iterator retval = *this; ++(*this); return retval;}
         bool operator==(iterator other) const {return p == other.p;}
-        bool operator!=(iterator other) const {return !(*this == other);}
         reference operator*() {return *p;}
         pointer operator->() {return p;}
         iterator& operator--(){--p; return *this;}
@@ -42,7 +41,6 @@ public:
         const_iterator& operator++(){++p; return *this;}
         const_iterator operator++(int){const_iterator retval = *this; ++(*this); return retval;}
         bool operator==(const_iterator other) const {return p == other.p;}
-        bool operator!=(const_iterator other) const {return !(*this == other);}
         const_reference operator*() const {return *p;}
         const_iterator& operator--(){--p; return *this;}
         const_iterator operator--(int){const_iterator retval = *this; --(*this); return retval;}
@@ -52,8 +50,6 @@ public:
         const_iterator& operator+=(const size_type& s){ p += s; return *this;}
         const_iterator& operator-=(const size_type& s){ p -= s; return *this;}
     };
-//    using iterator = std::iterator<std::random_access_iterator_tag, T>;
-//    using const_iterator = std::iterator<std::random_access_iterator_tag, T>;
     using reverse_iterator = std::reverse_iterator<iterator>;
     using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 
