@@ -113,12 +113,12 @@ public:
     const_iterator cend() const { return const_iterator{d.get() + s}; }
 
     reverse_iterator rbegin(){ return reverse_iterator(end()); }
-    const_reverse_iterator crbegin(){ return const_reverse_iterator(cend()); }
+    const_reverse_iterator crbegin() const { return const_reverse_iterator(cend()); }
 
     reverse_iterator rend(){ return reverse_iterator(begin()); }
-    const_reverse_iterator crend(){ return const_reverse_iterator(cbegin()); }
+    const_reverse_iterator crend() const { return const_reverse_iterator(cbegin()); }
 
-    size_type size(){ return s; }
+    size_type size() const { return s; }
 
     void swap(dynarray& other){ std::swap(s, other.s); std::swap(d, other.d); }
 
