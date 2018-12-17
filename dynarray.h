@@ -110,15 +110,19 @@ public:
 
     iterator begin(){ return iterator{d.get()}; }
     const_iterator cbegin() const { return const_iterator{d.get()}; }
+    const_iterator begin() const {return cbegin();}
 
     iterator end(){ return iterator{d.get() + s}; }
     const_iterator cend() const { return const_iterator{d.get() + s}; }
+    const_iterator end() const {return cend();}
 
     reverse_iterator rbegin(){ return reverse_iterator(end()); }
     const_reverse_iterator crbegin() const { return const_reverse_iterator(cend()); }
+    const_reverse_iterator rbegin() const { return crbegin(); }
 
     reverse_iterator rend(){ return reverse_iterator(begin()); }
     const_reverse_iterator crend() const { return const_reverse_iterator(cbegin()); }
+    const_reverse_iterator rend() const { return crend(); }
 
     size_type size() const { return s; }
 
