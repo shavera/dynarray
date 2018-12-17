@@ -23,6 +23,7 @@ public:
         iterator& operator++(){++p; return *this;}
         iterator operator++(int){iterator retval = *this; ++(*this); return retval;}
         bool operator==(iterator other) const {return p == other.p;}
+        bool operator!=(iterator other) const {return !((*this) == other);}
         reference operator*() {return *p;}
         pointer operator->() {return p;}
         iterator& operator--(){--p; return *this;}
@@ -42,6 +43,7 @@ public:
         const_iterator& operator++(){++p; return *this;}
         const_iterator operator++(int){const_iterator retval = *this; ++(*this); return retval;}
         bool operator==(const_iterator other) const {return p == other.p;}
+        bool operator!=(const_iterator other) const {return !((*this) == other);}
         const_reference operator*() const {return *p;}
         const_iterator& operator--(){--p; return *this;}
         const_iterator operator--(int){const_iterator retval = *this; --(*this); return retval;}
